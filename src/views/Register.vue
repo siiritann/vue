@@ -24,9 +24,19 @@
         <th>Age</th>
       </tr>
       <tr v-for="row in resultList">
-        <td>{{row.name}}</td>
+        <td>Name: <input v-model="row.name"></td> // mapib ennast inputi vastu?
+        <td>Email: <input v-model="row.email"></td>
+        <td>Age: <input v-model="row.age"></td>
+        <td> {{ row.name }}</td>
         <td>{{row.email}}</td>
         <td>{{row.age}}</td>
+      </tr>
+      <tr v-for="(row, index) in resultList">
+        <td> {{ index + 1 }}</td>
+        <td>Name: <input v-model="row.name"></td>
+        <td>Email: <input v-model="row.email"></td>
+        <td>Age: <input v-model="row.age"></td>
+        <td><button v-on:click="removeRow(index)">Eemalda</button></td>
       </tr>
     </table>
     <!--    <RegisterPage msg>Register page component</RegisterPage>-->
@@ -44,6 +54,9 @@ let showResponse = function (response) {
 
 }
 
+let removeRow = function (index){
+  this.resultList.splice(index, 1);
+}
 
 // 1 - GET
 // let registerFunction = function () {
@@ -86,18 +99,19 @@ export default {
   components: {
     RegisterPage
   },
-  methods: {
+  methods: { // vaja selleks, et sellel lehel olevaid funktsioone välja kutsuda
     register: registerFunction,
-    showResponse: showResponse
+    showResponse: showResponse // vaskapoolne on mingi parameeter? parempoolne on viide sellele funktsioonile
+    // ei ol esama mis showResponse() sest muidu võtab väärtuseks slele asja, mis tuleb PÄRAST funktsiooni jooksutamist
   },
-  data: function () {
+  data: function () { // vue nõuab et kogu data mida sellelt vaatelt returnin peab olema functioni sees
     return {
       user: {},
       // email: "", // e-maili algväärtus
       // a: 0,
       // b: 0
       message: "default msg",
-      resultList: []
+      resultList: [] // array tüüpi kui tahan midagi teha palju
     }
   }
 }
